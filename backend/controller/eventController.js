@@ -18,8 +18,8 @@ exports.insertevent =async (t,imgurl)=>
   let msg ="event not added"
    await event.save()
     .then(async ()=>
-    {
-        let data = await eventModel.find()
+    {    let data = await eventModel.find();
+       
         msg={'message':"event added",'eventdata':data}
     })
     return msg    

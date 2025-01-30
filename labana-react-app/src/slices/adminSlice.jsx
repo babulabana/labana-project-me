@@ -14,6 +14,6 @@ export const adminSlice = createSlice({
   },
 });
 
-export const { setadmin } = sliceName.actions;
+export const { setadmin } = adminSlice.actions;
 
-export default sliceName.reducer;
+export default adminSlice.reducer;

@@ -10,6 +10,6 @@ const storage = multer.diskStorage({
 });
 
 // Create the multer instance
-const upload = multer({ storage: storage });
+const upload =  multer({ storage: storage });
 
 module.exports = upload;

@@ -4,7 +4,8 @@ const db = require("./config/dbconfig")
 const taskRouter = require("./router/taskRouter")
 const cors = require("cors")
 const userRouter = require("./router/userRouter")
-const campRouter = require("./router/campRouter")
+const eventRouter = require("./router/eventRouter")
+const upload = require("./forMulter")
 // enabling CORS for some specific origins only.
 let corsOptions = {
     origin : ['http://localhost:3000',
@@ -16,12 +17,12 @@ let corsOptions = {
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-app.use("/camp",campRouter)
+app.use("/event",eventRouter)
 app.use("/users",userRouter)
 app.use("/task",taskRouter);
 app.get("/",(req,res)=>
 {
-    res.send("use /tasks for task");
+    res.send("use /event for task");
 
 })
 app.listen(8080,()=>console.log("server running"))
