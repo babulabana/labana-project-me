@@ -28,11 +28,9 @@ exports.deleteevent = async (name)=>
 {
     let t = {eventname:name}
     let msg = "event not delted"
-
     await eventModel.deleteOne(t).
     then(()=>msg = "event deleted ")
     return msg ;
-
 }
 exports.updateevent = async (name)=>
 {

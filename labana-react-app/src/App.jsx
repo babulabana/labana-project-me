@@ -12,15 +12,17 @@ function App() {
 
   return (
     <>
-    <div>
+    <div className='w-full'>
       <Link to="/adminlogin">Admin Login</Link>
       <Link to="/showevents">Show Events</Link>
-      <Routes>
-        <Route path = "/Addevent" element={<AddEvent></AddEvent>}></Route>
+      <div className='w-full flex flex-row flex-wrap gap-10'>
+      <Routes >
+        <Route  path = "/Addevent" element={<AddEvent></AddEvent>}></Route>
         <Route path="/adminlogin" element={<AdminLogin></AdminLogin>}></Route>
         <Route path="/showevents" element={<ShowEvents></ShowEvents>}  ></Route>
         <Route path="/adminhome" element={<Adminhome></Adminhome>}></Route>
       </Routes> 
+      </div>
     </div>
     </>
   )
