@@ -4,6 +4,7 @@ import { Categories } from '../../categorydata'
 import { API_URL } from '../../Config'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
+import moment from 'moment'
 export default function AddEvent() {
 
   let admin = useSelector((store1)=>store1.admin.admin)
@@ -23,7 +24,7 @@ export default function AddEvent() {
     {
       selectEvents()
     }
-  },[eventdata])
+  },[dataevent])
 
 
   let categoryUI = Categories.map((c)=>
@@ -41,16 +42,18 @@ export default function AddEvent() {
   let selectEvents=()=>
   {
     let eventsUIMAP = eventdata.map((e)=>{
-      return <tr>
+      return <tr className='border'>
          
-        <td>{e.eventname}</td>
-        <td>{e.place}</td>
-        <td>{e.date}</td>
-        <td>{e.time}</td>
-        <td>{e.maxlimit}</td>
-        <td>{e.category}</td>
-        <td><img height={100} width={100} 
+        <td className='border' >{e.eventname}</td>
+        <td className='border'>{e.place}</td>
+        <td className='border'>{e.date}</td>
+        <td className='border'>{e.time}</td>
+        <td className='border'>{e.maxlimit}</td>
+        <td className='border'>{e.category}</td>
+        <td className='border'><img height={100} width={100} 
         src={API_URL+"uploads/"+e.imgpath}/></td>
+        <td className='border'><input type="button" value="Edit" onClick={()=>editFunction(e)}/></td>
+        <td className='border'><input type="button" value="Delete" onClick={()=>deleteFunction(e._id)}/></td>
       </tr> 
     })
     seteventUI(eventsUIMAP)
@@ -86,6 +89,40 @@ export default function AddEvent() {
       .catch((e)=>alert(e))
       
   }
+  let editFunction = (eventobj)=>
+  {
+    // alert("we will edit event whose id is "+id)
+    eventnameref.current.value=eventobj.eventname
+    placeref.current.value=eventobj.place
+    dateref.current.value = moment(eventobj.date).format("DD-MM-YYYY")
+    dateref.current.defaultValue=(moment(eventobj.date).format('DD-MM-YYYY'))
+    // console.log(dateref.current.value)
+    alert(moment(eventobj.date).format('DD-MM-YYYY'))
+    // alert(dateref.current.innerText)
+    timeref.current.value=eventobj.time
+    maxlimitref.current.value=eventobj.maxlimit
+    categoryref.current.value=eventobj.category
+
+  }
+  let deleteFunction = (id)=>
+  {
+    // alert("we willdelete event whose id is "+id)
+    let x=confirm("Are you sure want to Delete ")
+    if(!x)
+    {
+      return
+    }
+    
+    axios.delete(API_URL+"event", { data:  {id:id}  })
+    .then((d)=>
+    {
+      console.log(d)
+    })
+    .catch((e)=>
+    {
+      console.log(e)
+    })
+  }
   // 
   return (
     <div>AddEvent 
@@ -105,7 +142,7 @@ export default function AddEvent() {
   <input type="button" value="Add Event " onClick={()=>add()}/>
 </p>
 
-<table border="1">
+<table border="1" className='table-fixed'>
   {eventsUI}
 </table>
     </div>

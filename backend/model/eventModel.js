@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const schema = mongoose.Schema({
+    
     eventname:String,
     place :String,
     date:Date,

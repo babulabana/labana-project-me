@@ -17,7 +17,8 @@ router.get("/", async (req,res)=>
 })
 router.delete("/",async(req,res)=>
 {
-    let msg = await eventController.deleteevent(req.body.name)
+    console.log(req.body)
+    let msg = await eventController.deleteevent(req.body.id)
     res.send(msg);
 })
 router.put("/",async(req,res)=>

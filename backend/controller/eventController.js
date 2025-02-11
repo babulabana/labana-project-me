@@ -24,12 +24,16 @@ exports.insertevent =async (t,imgurl)=>
     })
     return msg    
 }
-exports.deleteevent = async (name)=>
+exports.deleteevent = async (id)=>
 {
-    let t = {eventname:name}
+    // let t = {"_id":"ObjectId("+id+")"}
     let msg = "event not delted"
-    await eventModel.deleteOne(t).
-    then(()=>msg = "event deleted ")
+    // console.log(t)
+    await eventModel.findOneAndDelete({ _id: id })
+    .then((d)=>{
+        // console.log(d)
+        msg = "event deleted "
+    })
     return msg ;
 }
 exports.updateevent = async (name)=>
