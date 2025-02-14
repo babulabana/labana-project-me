@@ -18,6 +18,7 @@ export default function AddEvent() {
   let imgref = useRef();
 let imgformref = useRef();
 let btnref = useRef();
+let idref = useRef()
   const [eventdata, setEventdata] = useState([]);
   // let dataevent = 
 
@@ -81,14 +82,15 @@ let empty=()=>
   imgformref.current.src=""
 }
   let add = () => {
-    let data = {
+    const data = {
       eventname: eventnameref.current.value,
       place: placeref.current.value,
       date: dateref.current.value,
       time: timeref.current.value,
       maxlimit: maxlimitref.current.value,
       category: categoryref.current.value,
-      img: imgref.current.files[0]
+      img: imgref.current.files[0],
+      id:idref.current.value
     };
     let headers = { headers: { 'Content-Type': 'multipart/form-data ' } };
     if(btnref.current.value=="Add")
@@ -106,7 +108,18 @@ let empty=()=>
     }
     else
     {
-      alert("we will do update here ")
+      alert(data.eventname)
+      axios.put(API_URL + "event/",data, headers)
+      .then((d) => {
+        if (d.data.message === "event added") {
+          setEventdata(d.data.eventdata);
+          empty()
+        } else {
+          alert("in else of then");
+        }
+      })
+      .catch((e) => alert(e));
+
       btnref.current.value="Add"
       empty()
     }
@@ -120,6 +133,7 @@ let empty=()=>
     timeref.current.value = eventobj.time;
     maxlimitref.current.value = eventobj.maxlimit;
     categoryref.current.value = eventobj.category;
+    idref.current.value=eventobj._id
     imgformref.current.src = API_URL+"uploads/"+eventobj.imgpath
     btnref.current.value="update"
     alert(btnref.current.value)
@@ -135,6 +149,7 @@ let empty=()=>
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
+      <input  type="text" ref={idref} className="hidden"/>
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-lg shadow-md">

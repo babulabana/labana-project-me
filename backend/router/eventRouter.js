@@ -4,8 +4,16 @@ const eventController = require("../controller/eventController");
 const upload = require("../forMulter")
 router.post("/",upload.single('img'),async (req,res)=>
 {
-    console.log(req.file)
+    console.log("resdfsd")
   let m =await eventController.insertevent(req.body,req.file.filename);
+    res.send(m);
+})
+
+router.put("/",upload.single('img'),async (req,res)=>
+{
+    console.log(req.file)
+   
+  let m =await eventController.updateevent( req.body,req.file.filename);
     res.send(m);
 })
 

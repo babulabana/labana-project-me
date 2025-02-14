@@ -24,6 +24,41 @@ exports.insertevent =async (t,imgurl)=>
     })
     return msg    
 }
+
+
+
+exports.updateevent =async (t,imgurl)=>
+{
+
+    console.log("below is t")
+    console.log(t)
+    console.log("above is t")
+    let eventdata = {
+            eventname:t.eventname,
+            place :t.place,
+            date:t.date,
+            time:t.time,
+           
+            maxlimit:t.maxlimit,    
+              category:t.category,
+              imgpath:imgurl
+
+        }
+    
+  let msg ="event not updated"
+   await eventModel.updateOne({_id:t.id},{$set:eventdata})
+    .then(async ()=>
+    {    let data = await eventModel.find();
+       
+        msg={'message':"event updated",'eventdata':data}
+    })
+    return msg    
+}
+
+
+
+
+
 exports.deleteevent = async (id)=>
 {
     // let t = {"_id":"ObjectId("+id+")"}
