@@ -22,7 +22,7 @@ let idref = useRef()
   const [eventdata, setEventdata] = useState([]);
   // let dataevent = 
 
-  const [eventsUI, seteventUI] = useState([]);
+  const [eventsUI, seteventUI] = useState();
 
   useEffect(() => {
     if (!admin.islogin) {
@@ -30,12 +30,13 @@ let idref = useRef()
     } 
     else
     {
-      axios.get(API_URL + "event")
-    .then((d) => setEventdata(d.data));
-    selectEvents()
+    (async ()=>{await  axios.get(API_URL + "event")
+    .then((d) => setEventdata(d.data))})();
+    // selectEvents()
     }
-  }, []);
-  
+  }, [eventsUI]);
+
+
   let categoryUI = Categories.map((c) => {
     return <option value={c.categoryname} id={c.cid} key={c.cid}>{c.categoryname}</option>;
   });
@@ -81,20 +82,21 @@ let empty=()=>
   //  imgref.current.files[0]=""
   imgformref.current.src=""
 }
-  let add = () => {
-    const data = {
-      eventname: eventnameref.current.value,
-      place: placeref.current.value,
-      date: dateref.current.value,
-      time: timeref.current.value,
-      maxlimit: maxlimitref.current.value,
-      category: categoryref.current.value,
-      img: imgref.current.files[0],
-      id:idref.current.value
-    };
+  let add = async () => {
+    
     let headers = { headers: { 'Content-Type': 'multipart/form-data ' } };
     if(btnref.current.value=="Add")
     {
+      const data = {
+        eventname: eventnameref.current.value,
+        place: placeref.current.value,
+        date: dateref.current.value,
+        time: timeref.current.value,
+        maxlimit: maxlimitref.current.value,
+        category: categoryref.current.value,
+        img: imgref.current.files[0],
+        
+      };
     axios.post(API_URL + "event/", data, headers)
       .then((d) => {
         if (d.data.message === "event added") {
@@ -108,11 +110,23 @@ let empty=()=>
     }
     else
     {
-      alert(data.eventname)
-      axios.put(API_URL + "event/",data, headers)
+      
+      const data = {
+        eventname: eventnameref.current.value,
+        place: placeref.current.value,
+        date: dateref.current.value,
+        time: timeref.current.value,
+        maxlimit: maxlimitref.current.value,
+        category: categoryref.current.value,        
+        id:idref.current.value
+      };
+      console.log(data)
+    await  axios.put(API_URL + "event/",data)
       .then((d) => {
-        if (d.data.message === "event added") {
+        console.log(d.data)
+        if (d.data.message === "event updated") {
           setEventdata(d.data.eventdata);
+          selectEvents()
           empty()
         } else {
           alert("in else of then");
@@ -121,6 +135,7 @@ let empty=()=>
       .catch((e) => alert(e));
 
       btnref.current.value="Add"
+      imgref.current.style.display="block"
       empty()
     }
   };
@@ -136,6 +151,7 @@ let empty=()=>
     idref.current.value=eventobj._id
     imgformref.current.src = API_URL+"uploads/"+eventobj.imgpath
     btnref.current.value="update"
+    imgref.current.style.display="none"
     alert(btnref.current.value)
   };
 
@@ -149,7 +165,7 @@ let empty=()=>
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
-      <input  type="text" ref={idref} className="hidden"/>
+      <input  type="text" ref={idref} />
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-lg shadow-md">

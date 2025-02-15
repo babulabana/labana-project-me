@@ -9,12 +9,22 @@ router.post("/",upload.single('img'),async (req,res)=>
     res.send(m);
 })
 
-router.put("/",upload.single('img'),async (req,res)=>
+router.put("/",async (req,res)=>
 {
-    console.log(req.file)
-   
-  let m =await eventController.updateevent( req.body,req.file.filename);
+    
+//    console.log("req body is "+ JSON.stringify(req.body))
+try
+{
+let t = (req.body)
+  let m =await eventController.updateevent(t);
+  console.log(m)
     res.send(m);
+}
+catch(e)
+{
+    console.log(e)
+}
+// res.send("blank")
 })
 
 
@@ -29,9 +39,9 @@ router.delete("/",async(req,res)=>
     let msg = await eventController.deleteevent(req.body.id)
     res.send(msg);
 })
-router.put("/",async(req,res)=>
-{
-    let msg = await eventController.updateevent(req.body.name)
-    res.send(msg);
-})
+// router.put("/",async(req,res)=>
+// {
+//     let msg = await eventController.updateevent(req.body.name)
+//     res.send(msg);
+// })
 module.exports = router;
