@@ -30,11 +30,14 @@ let idref = useRef()
     } 
     else
     {
+      if(eventdata.length<=0)
+      {
     (async ()=>{await  axios.get(API_URL + "event")
     .then((d) => setEventdata(d.data))})();
-    // selectEvents()
+      }
+    selectEvents()
     }
-  }, [eventsUI]);
+  }, [eventdata]);
 
 
   let categoryUI = Categories.map((c) => {
@@ -77,13 +80,11 @@ let empty=()=>
    dateref.current.value=""
    timeref.current.value=""
    maxlimitref.current.value=""
-
    categoryref.current.value=""
   //  imgref.current.files[0]=""
   imgformref.current.src=""
 }
-  let add = async () => {
-    
+  let add = async () => {    
     let headers = { headers: { 'Content-Type': 'multipart/form-data ' } };
     if(btnref.current.value=="Add")
     {
@@ -109,8 +110,7 @@ let empty=()=>
       .catch((e) => alert(e));
     }
     else
-    {
-      
+    {      
       const data = {
         eventname: eventnameref.current.value,
         place: placeref.current.value,
@@ -155,11 +155,15 @@ let empty=()=>
     alert(btnref.current.value)
   };
 
-  let deleteFunction = (id) => {
+  let deleteFunction =async (id) => {
     let x = confirm("Are you sure you want to delete this event?");
     if (!x) return;
-    axios.delete(API_URL + "event", { data: { id: id } })
-      .then((d) => console.log(d))
+ await   axios.delete(API_URL + "event", { data: { id: id } })
+      .then((d) =>
+      {
+        (async ()=>{await  axios.get(API_URL + "event")
+        .then((d) => setEventdata(d.data))})();
+      })
       .catch((e) => console.log(e));
   };
 
