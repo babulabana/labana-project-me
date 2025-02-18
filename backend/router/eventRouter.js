@@ -33,6 +33,20 @@ router.get("/", async (req,res)=>
     let d = await eventController.getallevents();
     res.send(d)
 })
+router.get("/:category",async(req,res)=>
+{
+    let category = req.params.category;
+    let data = await eventController.getEventsbyCategory(category)
+    res.send(data)
+})
+router.get("/getEventById/:eid",async(req,res)=>
+    {
+      let   eid = req.params.eid
+    
+      let data = await eventController.getEventById(eid)
+      console.log(data)
+      res.send(data)
+    })
 router.delete("/",async(req,res)=>
 {
     console.log(req.body)
