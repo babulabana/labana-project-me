@@ -8,6 +8,7 @@ import Adminhome from './components/admin/Adminhome'
 import AddEvent from './components/admin/AddEvent'
 import ShowEvents from './components/ShowEvents'
 import ShowCategories from './components/ShowCategories'
+import EventDetails from './components/EventDetails'
 function App() {
   const [count, setCount] = useState(0)
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/showevents" element={<ShowEvents></ShowEvents>}  ></Route>
         <Route path="/showevents/:eventname" element={<ShowEvents></ShowEvents>}  ></Route>
         <Route path="/adminhome" element={<Adminhome></Adminhome>}></Route>
+        <Route path='/EventDetails/:eid' element={<EventDetails></EventDetails>}></Route>
       </Routes> 
       </div>
     </div>

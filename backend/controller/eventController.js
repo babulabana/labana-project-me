@@ -82,3 +82,13 @@ exports.getallevents =async ()=>
 let data = await eventModel.find();
 return data;
 }
+exports.getEventsbyCategory = async(categoryname)=>
+{
+    let data = await eventModel.find({category:categoryname});
+return data;
+}
+exports.getEventById =async(eid)=>
+{
+    let data = await eventModel.find({_id:eid});
+return data;
+}

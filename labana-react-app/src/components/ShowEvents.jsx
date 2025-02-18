@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 import { API_URL } from '../Config';
 import axios from 'axios';
 
@@ -11,8 +11,9 @@ export default function ShowEvents() {
 
   useEffect(() => {
     (async () => {
-      await axios.get(API_URL + "event")
+      await axios.get(API_URL + "event/"+cname)
         .then((d) => {
+          console.log(d)
           setEventdata(d.data);
           let ui = d.data.map((event) => {
             return (
@@ -26,6 +27,7 @@ export default function ShowEvents() {
                   <h2 className="text-xl font-bold mb-2">{event.eventname}</h2>
                   <p className="text-gray-600 mb-2">{event.place}</p>
                   <p className="text-gray-500">{new Date(event.date).toLocaleDateString()}</p>
+                  <Link to={"/EventDetails/"+event._id}>Show Details</Link>
                 </div>
               </div>
             );
