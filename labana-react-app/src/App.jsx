@@ -21,6 +21,8 @@ function App() {
       </nav>
       <div className='w-full flex flex-row flex-wrap gap-10'>
       <Routes >
+
+        
         <Route path="/" element={<ShowCategories></ShowCategories>}></Route>
         <Route  path = "/Addevent" element={<AddEvent></AddEvent>}></Route>
         <Route path="/adminlogin" element={<AdminLogin></AdminLogin>}></Route>
